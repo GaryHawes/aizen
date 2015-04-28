@@ -1,4 +1,4 @@
-; Packaging information for Merchant
+; Packaging information for aizen
 name = "Aizen"
 description = "Custom Drupal 7 installation profile"
 distribution_name = Aizen
@@ -93,18 +93,18 @@ dependencies[] = views_ui
 ;dependencies[] = views_json
 ; XML sitemap
 dependencies[] = xmlsitemap
-;dependencies[] = xmlsitemap_engines
+dependencies[] = xmlsitemap_engines
 ;dependencies[] = xmlsitemap_i18n
-;dependencies[] = xmlsitemap_node
-;dependencies[] = xmlsitemap_taxonomy
+dependencies[] = xmlsitemap_node
+dependencies[] = xmlsitemap_taxonomy
 ; Features
-;dependencies[] = features
+dependencies[] = features
 ;dependencies[] = fe_block
-;dependencies[] = uuid_features
-; Features - Content types
+dependencies[] = uuid_features
+; Features
 
 ; Customs
 
 ; Statistics
 
-files[] = merchant.profile
+files[] = aizen.profile

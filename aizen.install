@@ -5,7 +5,7 @@
  *
  * Perform actions to set up the site for this profile.
  */
-function merchant_install() {
+function aizen_install() {
 
   // Add text formats.
   $filtered_html_format = array(
@@ -102,12 +102,12 @@ function merchant_install() {
   $plain_text_format = (object) $plain_text_format;
   filter_format_save($plain_text_format);
 
-  // Enable seven and merchant themes and set defaults.
-  theme_enable(array('seven', 'merchantsimple'));
+  // Enable seven and aizen themes and set defaults.
+  theme_enable(array('seven', 'rukia'));
   // Disable Bartik theme.
   theme_disable(array('bartik'));
 
-  variable_set('theme_default', 'merchantsimple');
+  variable_set('theme_default', 'rukia');
   variable_set('admin_theme', 'seven');
   variable_set('node_admin_theme', '1');
 
