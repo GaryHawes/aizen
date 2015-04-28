@@ -73,7 +73,6 @@ dependencies[] = site_map
 dependencies[] = site_verify
 dependencies[] = strongarm
 dependencies[] = token
-dependencies[] = username_enumeration_prevention
 dependencies[] = webform
 ; Performance and scalability
 
