@@ -11,7 +11,6 @@ core = "7.x"
 
 ; Administration
 dependencies[] = admin_menu_toolbar
-dependencies[] = menu_admin_per_menu
 ; Caching
 
 ; Chaos tool suite
