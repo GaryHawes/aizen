@@ -1,106 +1,50 @@
 <?php
 
 /**
+ * Helper function to create default content types.
+ */
+function _aizen_create_default_content_types() {
+  // Insert default pre-defined node types into the database. For a complete
+  // list of available node type attributes, refer to the node type API
+  // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
+  $types = array(
+    array(
+      'type' => 'page',
+      'name' => st("Page"),
+      'base' => 'node_content',
+      'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+      'custom' => 0,
+      'modified' => 1,
+      'locked' => 0,
+    ),
+    array(
+      'type' => 'Article',
+      'name' => st("Article"),
+      'base' => 'node_content',
+      'description' => st("Use <em>Article</em> for your news related content."),
+      'custom' => 0,
+      'modified' => 1,
+      'locked' => 0,
+    ),
+  );
+
+  foreach ($types as $type) {
+    $type = node_type_set_defaults($type);
+    node_type_save($type);
+    node_add_body_field($type);
+  }
+}
+
+
+/**
  * Implements hook_install().
  *
  * Perform actions to set up the site for this profile.
  */
 function aizen_install() {
 
-  // Add text formats.
-  $filtered_html_format = array(
-    'format' => 'filtered_html',
-    'name' => 'Filtered HTML',
-    'weight' => -10,
-    'filters' => array(
-      // URL filter.
-      'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
-      ),
-      // HTML filter.
-      'filter_html' => array(
-        'weight' => 1,
-        'status' => 1,
-        'settings' => array(
-          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <p> <br> <table> <tr> <td> <thead> <tbody> <th> <u> <s> <h2> <h3> <h4> <h5>',
-          'filter_html_help' => 1,
-          'filter_html_nofollow' => 0,
-        ),
-      ),
-      // Media Filter.
-      'media_filter' => array(
-        'weight' => 2,
-        'status' => 1,
-        'settings' => array(),
-      ),
-      // HTML corrector filter.
-      'filter_htmlcorrector' => array(
-        'weight' => 10,
-        'status' => 1,
-      ),
-    ),
-  );
-  $filtered_html_format = (object) $filtered_html_format;
-  filter_format_save($filtered_html_format);
-
-  $full_html_format = array(
-    'format' => 'full_html',
-    'name' => 'Full HTML',
-    'weight' => -9,
-    'filters' => array(
-      // URL filter.
-      'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
-      ),
-      // Line break filter.
-      'filter_autop' => array(
-        'weight' => 1,
-        'status' => 1,
-      ),
-      // Media Filter.
-      'media_filter' => array(
-        'weight' => 2,
-        'status' => 1,
-        'settings' => array(),
-      ),
-      // HTML corrector filter.
-      'filter_htmlcorrector' => array(
-        'weight' => 10,
-        'status' => 1,
-      ),
-    ),
-  );
-  $full_html_format = (object) $full_html_format;
-  filter_format_save($full_html_format);
-
-  $plain_text_format = array(
-    'format' => 'plain_text',
-    'name' => 'Plain text',
-    'weight' => -8,
-    'filters' => array(
-      'filter_html_escape' => array(
-        'weight' => 0,
-        'status' => 1,
-        'settings' => array(),
-      ),
-      'filter_url' => array(
-        'weight' => 1,
-        'status' => 1,
-        'settings' => array(
-          'filter_url_length' => 72,
-        ),
-      ),
-      'filter_autop' => array(
-        'weight' => 2,
-        'status' => 1,
-        'settings' => array(),
-      ),
-    ),
-  );
-  $plain_text_format = (object) $plain_text_format;
-  filter_format_save($plain_text_format);
+  // Create default content types
+  _aizen_create_default_content_types();
 
   // Enable seven and aizen themes and set defaults.
   theme_enable(array('seven', 'rukia'));
@@ -113,7 +57,7 @@ function aizen_install() {
 
   // Update the menu router information.
   menu_rebuild();
-    // ignore any rebuild messages
+  // ignore any rebuild messages
   node_access_needs_rebuild(FALSE);
   // ignore any other install messages
   drupal_get_messages();
