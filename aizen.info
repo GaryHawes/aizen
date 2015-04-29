@@ -9,12 +9,7 @@ core = "7.x"
 ; Dependencies
 ; ------------
 
-; Administration
-dependencies[] = admin_menu_toolbar
-; Caching
 
-; Chaos tool suite
-dependencies[] = ctools
 ; Core
 dependencies[] = block
 dependencies[] = color
@@ -42,67 +37,53 @@ dependencies[] = taxonomy
 dependencies[] = text
 dependencies[] = translation
 dependencies[] = user
-; Meta tags
-dependencies[] = metatag
-; Multilingual - Internationalization
-;dependencies[] = i18n
-;dependencies[] = i18n_block
-;dependencies[] = i18n_field
-;dependencies[] = i18n_menu
-;dependencies[] = i18n_node
-;dependencies[] = i18n_path
-;dependencies[] = i18n_redirect
-;dependencies[] = i18n_select
-;dependencies[] = i18n_string
-;dependencies[] = i18n_taxonomy
-;dependencies[] = i18n_translation
-;dependencies[] = i18n_variable
-; Other
+
+; Main
+dependencies[] = admin_menu_toolbar
+dependencies[] = admin_views
+dependencies[] = blocktheme
+dependencies[] = ctools
+dependencies[] = date_all_day
+dependencies[] = date_views
 dependencies[] = eck
+dependencies[] = email
 dependencies[] = entity
 dependencies[] = entity_token
+dependencies[] = features
+dependencies[] = fences
+dependencies[] = ffc
+dependencies[] = field_display_label
+dependencies[] = field_group
 dependencies[] = globalredirect
 dependencies[] = jquery_update
 dependencies[] = libraries
+dependencies[] = link
+dependencies[] = metatag
 dependencies[] = module_filter
 dependencies[] = pathauto
+dependencies[] = pathologic
 dependencies[] = redirect
 dependencies[] = search404
 dependencies[] = securelogin
 dependencies[] = site_map
 dependencies[] = site_verify
 dependencies[] = strongarm
+dependencies[] = textformatter
 dependencies[] = token
 dependencies[] = webform
-; Performance and scalability
-
-;UUID
 dependencies[] = uuid
-; User interface
-dependencies[] = wysiwyg
-; Variable
+dependencies[] = uuid_features
 dependencies[] = variable
-; Views
 dependencies[] = views
 dependencies[] = views_bulk_operations
-;dependencies[] = views_rss
-;dependencies[] = views_rss_core
 dependencies[] = views_ui
-;dependencies[] = views_json
-; XML sitemap
+dependencies[] = wysiwyg
 dependencies[] = xmlsitemap
 dependencies[] = xmlsitemap_engines
-;dependencies[] = xmlsitemap_i18n
 dependencies[] = xmlsitemap_node
 dependencies[] = xmlsitemap_taxonomy
-; Features
-dependencies[] = features
-;dependencies[] = fe_block
-dependencies[] = uuid_features
-; Features
+
 
 ; Customs
-
-; Statistics
 
 files[] = aizen.profile
