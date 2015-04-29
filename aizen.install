@@ -35,16 +35,10 @@ function _aizen_create_default_content_types() {
   }
 }
 
-
 /**
- * Implements hook_install().
- *
- * Perform actions to set up the site for this profile.
+ * Helper function to set themes.
  */
-function aizen_install() {
-
-  // Create default content types
-  _aizen_create_default_content_types();
+function _aizen_set_themes() {
 
   // Enable seven and aizen themes and set defaults.
   theme_enable(array('seven', 'rukia'));
@@ -57,6 +51,49 @@ function aizen_install() {
 
   // Update the menu router information.
   menu_rebuild();
+}
+
+
+/**
+ * Helper function to set all site variables.
+ */
+function _aizen_set_variables() {
+
+  variable_set('features_default_export_path', 'sites/all/modules/features');
+  variable_set('features_rebuild_on_flush', '1');
+
+  variable_set('file_default_scheme', 'public');
+  variable_set('file_private_path', 'sites/default/files/private');
+  variable_set('file_public_path', 'sites/default/files');
+  variable_set('file_temporary_path', '/tmp');
+
+
+  variable_set('jquery_update_compression_type', 'min');
+  variable_set('jquery_update_jquery_admin_version', '1.5');
+  variable_set('jquery_update_jquery_cdn', 'google');
+  variable_set('jquery_update_jquery_version', '1.7');
+
+  variable_set('pathauto_node_pattern', '[node:menu-link:parents:join-path]/[node:title]');
+  variable_set('pathauto_file_pattern', 'file/[file:name]');
+  variable_set('pathauto_taxonomy_term_pattern', '[term:vocabulary]/[term:name]');
+  variable_set('pathauto_user_pattern', 'users/[user:name]');
+
+  variable_set('site_footer', 'All rights reserved');
+  variable_set('site_frontpage', 'node/1');
+
+}
+
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ */
+function aizen_install() {
+
+  _aizen_create_default_content_types();
+  _aizen_set_themes();
+  _aizen_set_variables();
   // ignore any rebuild messages
   node_access_needs_rebuild(FALSE);
   // ignore any other install messages
