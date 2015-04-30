@@ -37,6 +37,8 @@ dependencies[] = taxonomy
 dependencies[] = text
 dependencies[] = translation
 dependencies[] = user
+dependencies[] = rdf
+
 
 ; Main
 dependencies[] = admin_menu_toolbar
