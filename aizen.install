@@ -277,7 +277,7 @@ function _aizen_set_variables() {
   variable_set('pathauto_user_pattern', 'users/[user:name]');
 
   variable_set('site_footer', 'All rights reserved');
-  variable_set('site_frontpage', 'node/1');
+
 
 }
 
@@ -337,6 +337,29 @@ function _aizen_create_taxonomy_vocab() {
 
 }
 
+
+/**
+ * Helper function to create and set Homepage.
+ */
+function _aizen_homepage() {
+
+  $node = new stdClass();
+  $node->type = "page";
+  $node->title = "Welcome";
+  $node->language = LANGUAGE_NONE;
+  $node->path = array('alias' => 'homepage');
+  node_object_prepare($node);
+
+  $node->body[$node->language][0]['value'] = 'This is a body text';
+  $node->body[$node->language][0]['summary'] = 'Here goes a summary';
+  $node->body[$node->language][0]['format'] = 'filtered_html';
+
+  $node = node_submit($node);
+  node_save($node);
+  variable_set('site_frontpage', 'node/1');
+}
+
+
 /**
  * Implements hook_install().
  *
@@ -350,6 +373,7 @@ function aizen_install() {
   _aizen_set_themes();
   _aizen_create_default_roles();
   _aizen_set_variables();
+  _aizen_homepage();
 
   // ignore any rebuild messages
   node_access_needs_rebuild(FALSE);
