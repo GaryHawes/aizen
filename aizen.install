@@ -1,6 +1,67 @@
 <?php
 
 /**
+ * Helper function to create html formats.
+ */
+function _aizen_create_html_formats() {
+  // Add text formats.
+  $filtered_html_format = array(
+    'format' => 'filtered_html',
+    'name' => 'Filtered HTML',
+    'weight' => 0,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // HTML filter.
+      'filter_html' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $filtered_html_format = (object) $filtered_html_format;
+  filter_format_save($filtered_html_format);
+
+  $full_html_format = array(
+    'format' => 'full_html',
+    'name' => 'Full HTML',
+    'weight' => -2,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $full_html_format = (object) $full_html_format;
+  filter_format_save($full_html_format);
+}
+
+/**
  * Helper function to create default content types.
  */
 function _aizen_create_default_content_types() {
@@ -62,13 +123,6 @@ function _aizen_create_default_content_types() {
   foreach ($rdf_mappings as $rdf_mapping) {
     rdf_mapping_save($rdf_mapping);
   }
-
-  // Default "Basic page" to not be promoted and have comments disabled.
-  variable_set('node_options_page', array('status'));
-  variable_set('comment_page', COMMENT_NODE_HIDDEN);
-
-  // Don't display date and author information for "Basic page" nodes by default.
-  variable_set('node_submitted_page', FALSE);
 
   // Create an image field named "Image", enabled for the 'article' content type.
   // Many of the following values will be defaulted, they're included here as an illustrative examples.
@@ -158,6 +212,39 @@ function _aizen_set_themes() {
   menu_rebuild();
 }
 
+/**
+ * Helper function: set up all default roles.
+ */
+function _aizen_create_default_roles() {
+  $default_roles = array(
+    3 => 'Site Administrator',
+  );
+
+  // Create default roles.
+  foreach ($default_roles as $default_weight => $default_role) {
+    $role = new stdClass();
+    $role->name = $default_role;
+    $role->weight = $default_weight;
+    user_role_save($role);
+  }
+
+  // Assign all available permissions to the administrator role.
+  $admin_role = user_role_load_by_name($default_roles[3]);
+  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+  // Set this as the administrator role.
+  variable_set('user_admin_role', $admin_role->rid);
+
+  // Assign user 1 the "administrator" role.
+  db_insert('users_roles')
+    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
+    ->execute();
+
+  // Enable default permissions for system roles.
+  $filtered_html_permission = filter_permission_name($filtered_html_format);
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content'));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content',  'use text format filtered_html', 'use text format full_html'));
+
+}
 
 /**
  * Helper function to set all site variables.
@@ -172,6 +259,13 @@ function _aizen_set_variables() {
   variable_set('file_public_path', 'sites/default/files');
   variable_set('file_temporary_path', '/tmp');
 
+
+  // Default "Basic page" to not be promoted and have comments disabled.
+  variable_set('node_options_page', array('status'));
+  variable_set('comment_page', COMMENT_NODE_HIDDEN);
+
+  // Don't display date and author information for "Basic page" nodes by default.
+  variable_set('node_submitted_page', FALSE);
 
   variable_set('jquery_update_compression_type', 'min');
   variable_set('jquery_update_jquery_admin_version', '1.5');
@@ -251,8 +345,11 @@ function _aizen_create_taxonomy_vocab() {
  */
 function aizen_install() {
 
+  _aizen_create_html_formats();
   _aizen_create_default_content_types();
+  _aizen_create_taxonomy_vocab();
   _aizen_set_themes();
+  _aizen_create_default_roles();
   _aizen_set_variables();
 
   // ignore any rebuild messages
