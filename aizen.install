@@ -347,6 +347,7 @@ function _aizen_homepage() {
   $node->type = "page";
   $node->title = "Welcome";
   $node->language = LANGUAGE_NONE;
+  $node->uid = 1;
   $node->path = array('alias' => 'homepage');
   node_object_prepare($node);
 
