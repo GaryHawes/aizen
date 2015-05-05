@@ -240,7 +240,6 @@ function _aizen_create_default_roles() {
     ->execute();
 
   // Enable default permissions for system roles.
-  $filtered_html_permission = filter_permission_name($filtered_html_format);
   user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content'));
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content',  'use text format filtered_html', 'use text format full_html'));
 
